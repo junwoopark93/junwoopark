@@ -3,9 +3,19 @@ package com.example.my_project1;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 public class page2 extends AppCompatActivity {
+
+    private RadioGroup radioGroup;
+    private int selected_sub_menu;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -13,67 +23,57 @@ public class page2 extends AppCompatActivity {
         setContentView(R.layout.activity_page2);
 
 
-        TextView tx1 = (TextView)findViewById(R.id.sub_menu1);
-        TextView tx2 = (TextView)findViewById(R.id.sub_menu2);
-        TextView tx3 = (TextView)findViewById(R.id.sub_menu3);
-        TextView tx4 = (TextView)findViewById(R.id.sub_menu4);
-        TextView tx5 = (TextView)findViewById(R.id.sub_menu5);
-        TextView tx6 = (TextView)findViewById(R.id.sub_menu6);
-        TextView tx7 = (TextView)findViewById(R.id.sub_menu7);
-        TextView tx8 = (TextView)findViewById(R.id.sub_menu8);
-        TextView tx9 = (TextView)findViewById(R.id.sub_menu9);
 
-        TextView tx1_price = (TextView)findViewById(R.id.sub_menu1_price);
-        TextView tx2_price = (TextView)findViewById(R.id.sub_menu2_price);
-        TextView tx3_price = (TextView)findViewById(R.id.sub_menu3_price);
-        TextView tx4_price = (TextView)findViewById(R.id.sub_menu4_price);
-        TextView tx5_price = (TextView)findViewById(R.id.sub_menu5_price);
-        TextView tx6_price = (TextView)findViewById(R.id.sub_menu6_price);
-        TextView tx7_price = (TextView)findViewById(R.id.sub_menu7_price);
-        TextView tx8_price = (TextView)findViewById(R.id.sub_menu8_price);
-        TextView tx9_price = (TextView)findViewById(R.id.sub_menu9_price);
+        //텍스트 뷰 선언하기
+        TextView tx1 = (TextView) findViewById(R.id.sub_menu1);
+        TextView tx2 = (TextView) findViewById(R.id.sub_menu2);
+        TextView tx3 = (TextView) findViewById(R.id.sub_menu3);
+        TextView tx4 = (TextView) findViewById(R.id.sub_menu4);
+        TextView tx5 = (TextView) findViewById(R.id.sub_menu5);
+        TextView tx6 = (TextView) findViewById(R.id.sub_menu6);
+        TextView tx7 = (TextView) findViewById(R.id.sub_menu7);
+        TextView tx8 = (TextView) findViewById(R.id.sub_menu8);
+        TextView tx9 = (TextView) findViewById(R.id.sub_menu9);
 
-        Intent intentget = getIntent(); /*데이터 수신*/
+        TextView tx1_price = (TextView) findViewById(R.id.sub_menu1_price);
+        TextView tx2_price = (TextView) findViewById(R.id.sub_menu2_price);
+        TextView tx3_price = (TextView) findViewById(R.id.sub_menu3_price);
+        TextView tx4_price = (TextView) findViewById(R.id.sub_menu4_price);
+        TextView tx5_price = (TextView) findViewById(R.id.sub_menu5_price);
+        TextView tx6_price = (TextView) findViewById(R.id.sub_menu6_price);
+        TextView tx7_price = (TextView) findViewById(R.id.sub_menu7_price);
+        TextView tx8_price = (TextView) findViewById(R.id.sub_menu8_price);
+        TextView tx9_price = (TextView) findViewById(R.id.sub_menu9_price);
 
-        String name1 = intentget.getStringExtra("sub_menu1_pass");
-        String name2 = intentget.getStringExtra("sub_menu2_pass");
-        String name3 = intentget.getStringExtra("sub_menu3_pass");
-        String name4 = intentget.getStringExtra("sub_menu4_pass");
-        String name5 = intentget.getStringExtra("sub_menu5_pass");
-        String name6 = intentget.getStringExtra("sub_menu6_pass");
-        String name7 = intentget.getStringExtra("sub_menu7_pass");
-        String name8 = intentget.getStringExtra("sub_menu8_pass");
-        String name9 = intentget.getStringExtra("sub_menu9_pass");
+        TextView menu_text = (TextView) findViewById(R.id.main_menu);
 
-        String name1_price = intentget.getStringExtra("sub_menu1_pass_price");
-        String name2_price = intentget.getStringExtra("sub_menu2_pass_price");
-        String name3_price = intentget.getStringExtra("sub_menu3_pass_price");
-        String name4_price = intentget.getStringExtra("sub_menu4_pass_price");
-        String name5_price = intentget.getStringExtra("sub_menu5_pass_price");
-        String name6_price = intentget.getStringExtra("sub_menu6_pass_price");
-        String name7_price = intentget.getStringExtra("sub_menu7_pass_price");
-        String name8_price = intentget.getStringExtra("sub_menu8_pass_price");
-        String name9_price = intentget.getStringExtra("sub_menu9_pass_price");
 
-        tx1.setText(name1);
-        tx2.setText(name2);
-        tx3.setText(name3);
-        tx4.setText(name4);
-        tx5.setText(name5);
-        tx6.setText(name6);
-        tx7.setText(name7);
-        tx8.setText(name8);
-        tx9.setText(name9);
+        Intent get_intent = getIntent(); /*데이터 수신*/
+        int main_menu_number = get_intent.getIntExtra("main_menu",0 );
+         menu_text.setText("메뉴선정 : " + Integer.toString(main_menu_number + 1));
 
-        tx1.setText(name1_price);
-        tx2.setText(name2_price);
-        tx3.setText(name3_price);
-        tx4.setText(name4_price);
-        tx5.setText(name5_price);
-        tx6.setText(name6_price);
-        tx7.setText(name7_price);
-        tx8.setText(name8_price);
-        tx9.setText(name9_price);
+        Log.v("page2", "메뉴선정 : " + Integer.toString(main_menu_number));
+
+
+        //라디오 버튼 설정
+        final RadioGroup rg = (RadioGroup)findViewById(R.id.radioGroup);
+        Button result = (Button)findViewById(R.id.result_button);
+        result.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               int id = rg.getCheckedRadioButtonId();
+                //getCheckedRadioButtonId() 의 리턴값은 선택된 RadioButton 의 id 값.
+                RadioButton rb = (RadioButton) findViewById(id);
+                selected_sub_menu = Integer.parseInt(rb.getText().toString());
+
+                Log.v("page2", "세부메뉴선택 : " + Integer.toString(selected_sub_menu));
+
+                Intent page2_send_intent = new Intent(page2.this, MainActivity.class);
+                send_intent.putExtra("main_menu",idx);
+                startActivity(send_intent);//액티비티 띄우기
+            }
+        });
+
     }
 
 }
